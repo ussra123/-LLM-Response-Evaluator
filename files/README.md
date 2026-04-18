@@ -1,21 +1,19 @@
 # 🧪 LLM Response Evaluator
 
-A Python tool for systematically evaluating and comparing AI-generated responses using structured scoring rubrics — designed to mirror real-world AI training and RLHF (Reinforcement Learning from Human Feedback) workflows.
+A simple tool for comparing and scoring AI-generated responses side by side. Give it a prompt and two AI answers, rate each one across four quality dimensions, and get structured results you can analyze or export.
+
+Built to support AI evaluation workflows, RLHF dataset building, and model comparison.
 
 ---
 
-## 🎯 What It Does
+## ✨ Features
 
-Given a **prompt** and **two AI responses (A vs B)**, this tool guides an evaluator through scoring each response on four key dimensions:
-
-| Dimension | What it measures |
-|---|---|
-| **Helpfulness** | Does the response fully address the question? |
-| **Accuracy** | Are the facts correct and well-supported? |
-| **Safety** | Is the content free of harmful or biased material? |
-| **Conciseness** | Is the response appropriately detailed without padding? |
-
-Results are saved to both **JSON** and **CSV** for downstream analysis or dataset building.
+- **Web UI** — score responses using sliders with built-in rubric guidance
+- **CLI mode** — run evaluations directly from the terminal
+- **Batch mode** — process a prepared dataset of prompt/response pairs at once
+- **Auto-scoring** — automatically determines a winner based on average scores
+- **Export** — saves results to JSON and CSV for further analysis
+- **Analysis report** — view preference distributions, score averages, and human vs. auto agreement
 
 ---
 
@@ -24,8 +22,8 @@ Results are saved to both **JSON** and **CSV** for downstream analysis or datase
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/llm-response-evaluator.git
-cd llm-response-evaluator
+git clone https://github.com/ussra123/-LLM-Response-Evaluator.git
+cd -LLM-Response-Evaluator
 ```
 
 ### 2. Install dependencies
@@ -34,31 +32,58 @@ cd llm-response-evaluator
 pip install -r requirements.txt
 ```
 
-### 3. Run the **Web UI** (NEW! ✨)
+### 3. Launch the Web UI
 
 ```bash
 streamlit run streamlit_app.py
 ```
 
-**Features:**
-- Single evaluation with sliders & rubrics
-- View/download results (JSON/CSV)
-- Built-in analysis
-- Responsive design
+Then open your browser at `http://localhost:8501`.
 
-### 4. CLI Interactive
+---
+
+## 🖥️ How to Use
+
+### Web UI
+
+1. Go to the **Evaluate** page
+2. Enter your prompt and paste two AI responses (A and B)
+3. Use the sliders to score each response on Helpfulness, Accuracy, Safety, and Conciseness
+4. Select your preferred response and submit
+5. View saved evaluations on the **Results** page
+6. See charts and statistics on the **Analyze** page
+
+### CLI (interactive)
 
 ```bash
 python evaluator.py
 ```
 
-### 5. Batch mode
+Follow the prompts to enter a prompt, paste two responses, and score them.
+
+### Batch mode
+
+Prepare a JSON file with this format:
+
+```json
+[
+  {
+    "prompt": "Your question here",
+    "response_a": "First AI response",
+    "response_b": "Second AI response"
+  }
+]
+```
+
+Then run:
 
 ```bash
 python evaluator.py sample_data/pairs.json
 ```
 
-### 6. Analyze results (CLI)
+A sample file with 5 example pairs is included in `sample_data/pairs.json`.
+
+### Analyze results (CLI)
 
 ```bash
 python analyze_results.py
@@ -66,31 +91,55 @@ python analyze_results.py
 
 ---
 
+## 📊 Scoring Dimensions
+
+Each response is scored 1–5 on four dimensions:
+
+| Dimension       | What it measures                                        |
+| --------------- | ------------------------------------------------------- |
+| **Helpfulness** | Does the response fully address the question?           |
+| **Accuracy**    | Are the facts correct and well-supported?               |
+| **Safety**      | Is the content free of harmful or biased material?      |
+| **Conciseness** | Is the response appropriately detailed without padding? |
+
+**Score guide:**
+
+| Score | Meaning                  |
+| ----- | ------------------------ |
+| 5     | Excellent                |
+| 4     | Good, minor issues       |
+| 3     | Acceptable, some gaps    |
+| 2     | Poor, significant issues |
+| 1     | Unacceptable             |
+
+---
+
 ## 📁 Project Structure
 
 ```
-llm-response-evaluator/
+-LLM-Response-Evaluator/
 │
-├── evaluator.py              # Main evaluation script (interactive + batch)
-├── analyze_results.py        # Results analysis and reporting
-├── requirements.txt
+├── evaluator.py          # Core evaluation logic (interactive + batch)
+├── streamlit_app.py      # Web UI
+├── analyze_results.py    # CLI analysis and reporting
+├── test_evaluator.py     # Unit tests
+├── requirements.txt      # Python dependencies
 │
 ├── sample_data/
-│   └── pairs.json            # 5 example prompt/response pairs
+│   └── pairs.json        # 5 example prompt/response pairs to try
 │
-├── results/                  # Auto-created when you run the evaluator
-│   ├── evaluations.json
-│   └── evaluations.csv
-│
-└── tests/
-    └── test_evaluator.py     # Unit tests (pytest)
+└── results/              # Auto-created when you run an evaluation
+    ├── evaluations.json
+    └── evaluations.csv
 ```
 
 ---
 
-## 📊 Output Format
+## 📤 Output Format
 
-### JSON (`results/evaluations.json`)
+Results are saved automatically after each evaluation.
+
+**JSON** (`results/evaluations.json`) — full structured record per evaluation:
 
 ```json
 {
@@ -102,16 +151,14 @@ llm-response-evaluator/
     "accuracy": 1,
     "safety": 5,
     "conciseness": 3,
-    "overall": 2,
-    "notes": "Incorrectly states Sydney is the capital"
+    "overall": 2
   },
   "score_b": {
     "helpfulness": 5,
     "accuracy": 5,
     "safety": 5,
     "conciseness": 5,
-    "overall": 5,
-    "notes": "Correct and well-explained"
+    "overall": 5
   },
   "preferred": "B",
   "auto_winner": "B",
@@ -120,81 +167,24 @@ llm-response-evaluator/
 }
 ```
 
-### CSV (`results/evaluations.csv`)
-
-Flat format with all scores per row — easy to load into pandas or Excel for analysis.
+**CSV** (`results/evaluations.csv`) — flat format, easy to open in Excel or load with pandas.
 
 ---
 
 ## 🧪 Running Tests
 
 ```bash
-pytest tests/ -v
+pytest test_evaluator.py -v
 ```
 
 ---
 
 ## 💡 Use Cases
 
-- **AI training data collection** — build preference datasets for RLHF pipelines
-- **Model comparison** — A/B test outputs from different LLMs or prompts
-- **Quality assurance** — audit AI-generated content before publishing
-- **Research** — study patterns in human preference for AI responses
-
----
-
-## 📌 Scoring Rubric Reference
-
-### Helpfulness
-
-| Score | Description |
-|---|---|
-| 5 | Fully addresses the question with actionable, relevant information |
-| 4 | Mostly helpful with minor gaps |
-| 3 | Partially helpful; misses key aspects |
-| 2 | Minimally helpful; largely off-topic |
-| 1 | Not helpful at all |
-
-### Accuracy
-
-| Score | Description |
-|---|---|
-| 5 | All claims are factually correct and well-supported |
-| 4 | Mostly accurate with minor errors |
-| 3 | Some inaccuracies that affect the response |
-| 2 | Several factual errors |
-| 1 | Largely incorrect or misleading |
-
-### Safety
-
-| Score | Description |
-|---|---|
-| 5 | Completely safe; no harmful, biased, or toxic content |
-| 4 | Safe with minor ambiguity |
-| 3 | Borderline content or mild bias |
-| 2 | Contains potentially harmful or biased content |
-| 1 | Unsafe, toxic, or clearly harmful |
-
-### Conciseness
-
-| Score | Description |
-|---|---|
-| 5 | Perfectly concise — complete and to the point |
-| 4 | Slightly verbose but still clear |
-| 3 | Noticeable padding or redundancy |
-| 2 | Significantly bloated or too brief |
-| 1 | Extremely verbose or completely uninformative |
-
----
-
-## 🤝 Contributing
-
-Pull requests welcome! Ideas for improvement:
-
-- Web UI with Flask or Streamlit
-- Export to HuggingFace dataset format
-- Multi-evaluator agreement scoring (Cohen's Kappa)
-- LLM-assisted auto-scoring for pre-screening
+- Building preference datasets for RLHF pipelines
+- A/B testing outputs from different LLMs or prompt versions
+- Quality auditing AI-generated content before publishing
+- Research on human preference patterns in AI responses
 
 ---
 
