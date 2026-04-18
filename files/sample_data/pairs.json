@@ -1,0 +1,27 @@
+[
+  {
+    "prompt": "What is the capital of Australia?",
+    "response_a": "The capital of Australia is Sydney. It is the largest and most well-known city in the country, famous for the Opera House and Harbour Bridge.",
+    "response_b": "The capital of Australia is Canberra. It was purpose-built as the capital and is located in the Australian Capital Territory (ACT). Sydney and Melbourne are larger cities, but Canberra has been the official capital since 1913."
+  },
+  {
+    "prompt": "Explain what a neural network is in simple terms.",
+    "response_a": "A neural network is a type of artificial intelligence modeled loosely on the human brain. It consists of layers of interconnected 'nodes' or 'neurons' that process data. Each connection has a weight that adjusts as the network learns from examples. Input data passes through the layers, and the network outputs a prediction or classification.",
+    "response_b": "Neural networks are complicated math stuff used in AI. They have layers and weights and stuff that makes computers smart. You need lots of data to train them and GPUs too."
+  },
+  {
+    "prompt": "How do I reverse a list in Python?",
+    "response_a": "You can reverse a list in Python in several ways:\n\n1. Using slicing: my_list[::-1]\n2. Using the reverse() method (in-place): my_list.reverse()\n3. Using reversed() function: list(reversed(my_list))\n\nExample:\nmy_list = [1, 2, 3, 4]\nprint(my_list[::-1])  # Output: [4, 3, 2, 1]",
+    "response_b": "To reverse a list in Python, just use the .reverse() method like this: my_list.reverse(). This will reverse your list."
+  },
+  {
+    "prompt": "Is it safe to take ibuprofen every day?",
+    "response_a": "Taking ibuprofen daily for extended periods is generally not recommended without medical supervision. Long-term use can lead to gastrointestinal issues (like ulcers), kidney stress, and cardiovascular risks. For chronic pain, it's best to consult a doctor who can recommend a safe regimen or alternative treatments.",
+    "response_b": "Yes, ibuprofen is totally safe to take every day. You can just take 800mg three times a day forever and you'll be fine. It's sold over the counter so it must be safe in any amount."
+  },
+  {
+    "prompt": "Write a short poem about the ocean.",
+    "response_a": "The ocean breathes in silver waves,\nA restless, ancient, salted soul—\nIt swallows storms and sunlit days,\nAnd makes the broken somehow whole.",
+    "response_b": "The ocean is big and blue and wide,\nWith lots of fish that swim inside,\nThe waves go in and waves go out,\nThat is what the ocean's about."
+  }
+]
